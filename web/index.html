@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="fbarda">
+    <meta name="description" content="Get someone's profile picture via this site! We don't notify the users ;)">
+    <meta name="viewport" content="width=device-width, initial-scale=1.2">
+    <title>Discord Profile Picture Getter</title>
+
+    <style>
+        :root,
+        body {
+            box-sizing: border-box;
+            height: 100%;
+            font-size: larger;
+        }
+
+        .flex-center {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flex-row {
+            flex-direction: row;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+
+        input {
+            box-sizing: border-box;
+            border-radius: 0.7em;
+            min-height: 2.7em;
+            min-width: 300px;
+            max-width: 95%;
+            background-color: #eeeeeeaa;
+        }
+
+        button {
+            box-sizing: border-box;
+            border-radius: 10px;
+            min-width: 175px;
+            min-height: 2.7em;
+            height: auto;
+            background-color: #7f7f7faa;
+        }
+
+        h1 {
+            justify-self: flex-start;
+            font-weight: bolder;
+        }
+
+        h3 {
+            color: hsl(0, 90%, 50%);
+            font-weight: 600;
+        }
+
+        footer {
+            justify-self: flex-end;
+        }
+
+        body>* {
+            margin-top: 1em;
+            margin-bottom: 1em;
+        }
+
+        body:first-child {
+            margin-top: initial;
+        }
+
+        body:last-child {
+            margin-bottom: initial;
+        }
+    </style>
+    <script>
+        /**
+         * @param {string} id
+         * @returns {Promise<string>}
+         */
+        function getPictureLink(id) {
+            return new Promise((resolve, reject) => {
+                const request = new XMLHttpRequest();
+                request.onabort = reject;
+                request.onerror = reject;
+                request.onloadend = () => resolve(request.responseText);
+                request.open("GET", "/api/getpfp?id=" + id);
+            });
+        }
+        /**@param {string} link*/
+        function showPicture(link) {
+            const stolenPic = document.createElement("img");
+            stolenPic.src = link;
+            const pictureContainer = document.getElementById("picture");
+            pictureContainer.childNodes.forEach(elem => elem.remove());
+            pictureContainer.appendChild(stolenPic);
+        }
+        function showError() {
+            const errorText = document.createElement("h3");
+            errorText.innerText = "Some error happened. Are you sure you entered the correct ID?\nCheck the \"How do I use this?\" guide for more info."
+            const pictureContainer = document.getElementById("picture");
+            pictureContainer.childNodes.forEach(elem => elem.remove());
+            pictureContainer.appendChild(errorText);
+        }
+        function handleSubmit() {
+            /**@type {HTMLInputElement}*/
+            const input = document.getElementById("id-input");
+            getPictureLink(input.value).then(showPicture, showError);
+        }
+    </script>
+</head>
+
+<body class="flex-center flex-col">
+    <h1>Discord Profile Picture Stealer!</h1>
+    <div class="flex-center flex-row">
+        <input type="text" id="id-input" onsubmit="handleSubmit();" placeholder="Paste their discord user id here...">
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button onsubmit="handleSubmit();">🕵️ Steal their picture!</button>
+    </div>
+    <div id="picture" class="flex-center flex-row"></div>
+    <footer class="flex-center flex-row">
+        <a href="./howto.html">How do I use this?</a>
+        &nbsp;-&nbsp;
+        <a href="https://github.com/fbarda">Follow me for more projects!</a>
+        &nbsp;-&nbsp;
+        <a>Source Code</a>
+    </footer>
+</body>
+
+</html>
