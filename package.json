@@ -1,0 +1,27 @@
+{
+  "name": "discord-pfp-getter",
+  "version": "0.6.9",
+  "description": "Use Discord API to fetch an user's profile photo!",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fbarda/discord-pfp-getter.git"
+  },
+  "keywords": [
+    "discord",
+    "api"
+  ],
+  "author": "fbarda",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fbarda/discord-pfp-getter/issues"
+  },
+  "homepage": "https://github.com/fbarda/discord-pfp-getter#readme",
+  "dependencies": {
+    "mimetype": "^0.0.8",
+    "websocket": "^1.0.34"
+  }
+}
