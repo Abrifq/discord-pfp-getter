@@ -1,3 +1,4 @@
 [submodule "serve-module"]
 	path = gitmodules/serve-module
 	url = https://github.com/fbarda/dirty-serve
+	branch = main
