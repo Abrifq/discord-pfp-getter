@@ -18,13 +18,13 @@
 
         .flex-center {
             display: flex;
-            flex-wrap: wrap;
             align-items: center;
             justify-content: center;
         }
 
         .flex-row {
             flex-direction: row;
+            flex-wrap: wrap;
         }
 
         .flex-col {
@@ -82,13 +82,9 @@
          * @returns {Promise<string>}
          */
         function getPictureLink(id) {
-            return new Promise((resolve, reject) => {
-                const request = new XMLHttpRequest();
-                request.onabort = reject;
-                request.onerror = reject;
-                request.onloadend = () => resolve(request.responseText);
-                request.open("GET", "/api/getpfp?id=" + id);
-            });
+            return fetch("/api/getpfp?id=" + id, { method: "GET" })
+                .then(resp => { if (resp.ok) return resp; else throw resp; })
+                .then(resp => resp.text());
         }
         /**@param {string} link*/
         function showPicture(link) {
@@ -108,6 +104,7 @@
         function handleSubmit() {
             /**@type {HTMLInputElement}*/
             const input = document.getElementById("id-input");
+            console.log(input.value)
             getPictureLink(input.value).then(showPicture, showError);
         }
     </script>
@@ -118,7 +115,7 @@
     <div class="flex-center flex-row">
         <input type="text" id="id-input" onsubmit="handleSubmit();" placeholder="Paste their discord user id here...">
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <button onsubmit="handleSubmit();">🕵️ Steal their picture!</button>
+        <button onclick="handleSubmit();">🕵️ Steal their picture!</button>
     </div>
     <div id="picture" class="flex-center flex-row"></div>
     <footer class="flex-center flex-row">

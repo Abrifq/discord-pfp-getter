@@ -1,4 +1,4 @@
-const process = require("process"), { get } = require("http");
+const process = require("process"), { get } = require("https");
 
 //set TOKEN environment variable to use this
 const discordAPIToken = process.env["TOKEN"];
@@ -30,8 +30,7 @@ function pictureLinkCreator(userJSON) {
  */
 function getProfilePicture(id) {
     return new Promise((resolve, reject) => {
-        const request = get("https://discord.com/api/v9/users/" + id);
-        request.setHeader("Authorization", "Bot " + discordAPIToken);
+        const request = get("https://discord.com/api/v9/users/" + id, { headers: { "Authorization": "Bot " + discordAPIToken } });
         request
             .on("response", rsp => {
                 const chunks = [];
