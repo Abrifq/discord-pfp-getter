@@ -50,7 +50,7 @@ const idParserRegexp = /id\=(\d+)/;
 
 /**@type {import("../gitmodules/serve-module/apiHandlerPool").APICallback} */
 function handleApi(request, response) {
-    const id = idParserRegexp.exec(request.url.split("?")[1])[1];
+    const id = idParserRegexp.exec(request.url)[1];
     return getProfilePicture(id).then(
         link => {
             response.writeHead(200, "OK", { "Content-Type": "text/plain" });
