@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/fbarda/discord-pfp-getter#readme",
   "dependencies": {
-    "@fbarda/dirty-serve": "github:fbarda/dirty-serve"
+    "@fbarda/dirty-serve": "^0.0.6"
   }
 }
