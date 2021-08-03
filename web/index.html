@@ -7,30 +7,8 @@
     <meta name="description" content="Get someone's profile picture via this site! We don't notify the users ;)">
     <meta name="viewport" content="width=device-width, initial-scale=1.2">
     <title>Discord Profile Picture Getter</title>
-
+    <link href="./style.css" rel="stylesheet">
     <style>
-        :root,
-        body {
-            box-sizing: border-box;
-            height: 100%;
-            font-size: larger;
-        }
-
-        .flex-center {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .flex-row {
-            flex-direction: row;
-            flex-wrap: wrap;
-        }
-
-        .flex-col {
-            flex-direction: column;
-        }
-
         input {
             box-sizing: border-box;
             border-radius: 0.7em;
@@ -49,33 +27,7 @@
             background-color: #7f7f7faa;
         }
 
-        h1 {
-            justify-self: flex-start;
-            font-weight: bolder;
-        }
-
-        h3 {
-            color: hsl(0, 90%, 50%);
-            font-weight: 600;
-        }
-
-        footer {
-            justify-self: flex-end;
-        }
-
-        body>* {
-            margin-top: 1em;
-            margin-bottom: 1em;
-        }
-
-        body:first-child {
-            margin-top: initial;
-        }
-
-        body:last-child {
-            margin-bottom: initial;
-        }
-        #picture>img{
+        #picture img{
             max-height: 300px;
         }
     </style>
@@ -92,10 +44,13 @@
         /**@param {string} link*/
         function showPicture(link) {
             const stolenPic = document.createElement("img");
+            const linkContainer = document.createElement("a");
+            linkContainer.href = link;
+            linkContainer.appendChild(stolenPic);
             stolenPic.src = link;
             const pictureContainer = document.getElementById("picture");
             pictureContainer.childNodes.forEach(elem => elem.remove());
-            pictureContainer.appendChild(stolenPic);
+            pictureContainer.appendChild(linkContainer);
         }
         function showError() {
             const errorText = document.createElement("h3");
