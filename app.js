@@ -1,4 +1,4 @@
-const server = require("./gitmodules/serve-module"),
+const server = require("@fbarda/dirty-serve"),
     { apiHandler: getPfpApi } = require("./api/get-profile-picture");
 
 server.apiPageHandlers.add("/api/getpfp", getPfpApi);
