@@ -8,80 +8,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.2">
     <title>Discord Profile Picture Getter</title>
     <link href="./style.css" rel="stylesheet">
-    <style>
-        input {
-            box-sizing: border-box;
-            border-radius: 0.7em;
-            min-height: 2.7em;
-            min-width: 300px;
-            max-width: 95%;
-            background-color: #eeeeeeaa;
-        }
-
-        button {
-            box-sizing: border-box;
-            border-radius: 10px;
-            min-width: 175px;
-            min-height: 2.7em;
-            height: auto;
-            background-color: #7f7f7faa;
-        }
-
-        #picture img{
-            max-height: 300px;
-        }
-    </style>
-    <script>
-        /**
-         * @param {string} id
-         * @returns {Promise<string>}
-         */
-        function getPictureLink(id) {
-            return fetch("/api/getpfp?id=" + id, { method: "GET" })
-                .then(resp => { if (resp.ok) return resp; else throw resp; })
-                .then(resp => resp.text());
-        }
-        /**@param {string} link*/
-        function showPicture(link) {
-            const stolenPic = document.createElement("img");
-            const linkContainer = document.createElement("a");
-            linkContainer.href = link;
-            linkContainer.appendChild(stolenPic);
-            stolenPic.src = link;
-            const pictureContainer = document.getElementById("picture");
-            pictureContainer.childNodes.forEach(elem => elem.remove());
-            pictureContainer.appendChild(linkContainer);
-        }
-        function showError() {
-            const errorText = document.createElement("h3");
-            errorText.innerText = "Some error happened. Are you sure you entered the correct ID?\nCheck the \"How do I use this?\" guide for more info."
-            const pictureContainer = document.getElementById("picture");
-            pictureContainer.childNodes.forEach(elem => elem.remove());
-            pictureContainer.appendChild(errorText);
-        }
-        function handleSubmit() {
-            /**@type {HTMLInputElement}*/
-            const input = document.getElementById("id-input");
-            console.log(input.value)
-            getPictureLink(input.value).then(showPicture, showError);
-        }
-    </script>
+    <script src="./src/pfp.js" defer></script>
 </head>
 
 <body class="flex-center flex-col">
     <h1>Discord Profile Picture Stealer!</h1>
-    <div class="flex-center flex-row">
-        <input type="text" id="id-input" onsubmit="handleSubmit();" placeholder="Paste their discord user id here...">
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <button onclick="handleSubmit();">🕵️ Steal their picture!</button>
-    </div>
+    <div class="flex-center flex-row"><input type="text" id="id-input" onsubmit="handleSubmit();"
+            placeholder="Paste their discord user id here...">&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="handleSubmit();">🕵️
+            Steal their picture!</button></div>
     <div id="picture" class="flex-center flex-row"></div>
-    <footer class="flex-center flex-row">
-        <a href="./howto.html">How do I use this?</a>
-        &nbsp;-&nbsp;
-        <a href="https://github.com/fbarda">Follow me for more projects!</a>
-        &nbsp;-&nbsp;
-        <a href="https://github.com/fbarda/discord-pfp-getter">Source Code</a>
+    <footer class="flex-center flex-col">
+        <div class="flex-center flex-row"><a href="./banner.html">Get someone's profile banner!</a>&nbsp;-&nbsp;<a
+                href="./howto.html">How do I use this?</a></div>
+        <hr style="width:60%;min-width:550px;">
+        <div class="flex-center flex-row"><a href="https://github.com/fbarda">Follow me for more
+                projects!</a>&nbsp;-&nbsp;<a href="https://github.com/fbarda/discord-pfp-getter">Source Code</a></div>
     </footer>
 </body>
 

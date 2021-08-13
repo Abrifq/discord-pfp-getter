@@ -1,17 +1,11 @@
-const process = require("process"), { get } = require("https");
-
-//set TOKEN environment variable to use this
-const discordAPIToken = process.env["TOKEN"];
-
-if (!discordAPIToken)
-    throw "API token is not found. Please make sure to set the TOKEN environment variable.";
+const { getUserDetails } = require("./get-user-details");
 
 /**
  * @param {string} userJSON 
  * @returns {string}
  */
 function pictureLinkCreator(userJSON) {
-    /**@type {SimplifiedDiscordUser} */
+    /**@type {import('./get-user-details').SimplifiedDiscordUser} */
     const userOBJ = JSON.parse(userJSON);
     if (userOBJ.avatar)
         if (userOBJ.avatar.startsWith("a_")) //Animated avatar
@@ -24,34 +18,12 @@ function pictureLinkCreator(userJSON) {
         return `https://cdn.discordapp.com/embed/avatars/${Number(userOBJ.discriminator) % 5}.png`;
 }
 
-/**
- * @param {string} id 
- * @returns {Promise<string>}
- */
-function getProfilePicture(id) {
-    return new Promise((resolve, reject) => {
-        const request = get("https://discord.com/api/v9/users/" + id, { headers: { "Authorization": "Bot " + discordAPIToken } });
-        request
-            .on("response", rsp => {
-                const chunks = [];
-                rsp
-                    .on("data", chunk => chunks.push(chunk))
-                    .once("error", reject)
-                    .once("end", () => resolve(chunks.map(chunk => chunk.toString()).join("")));
-            })
-            .on("abort", () => reject("aborted"))
-            .on("timeout", () => reject("timed out"))
-            .on("error", reject);
-    }).then(pictureLinkCreator);
-}
+const idParserRegexp = /id\=(.*)/;
 
-
-const idParserRegexp = /id\=(\d+)/;
-
-/**@type {import("../gitmodules/serve-module/apiHandlerPool").APICallback} */
+/**@type {import("@fbarda/dirty-serve").APICallback} */
 function handleApi(request, response) {
     const id = idParserRegexp.exec(request.url)[1];
-    return getProfilePicture(id).then(
+    return getUserDetails(id).then(pictureLinkCreator).then(
         link => {
             response.writeHead(200, "OK", { "Content-Type": "text/plain" });
             response.write(link);
@@ -66,10 +38,3 @@ function handleApi(request, response) {
 }
 
 exports.apiHandler = handleApi;
-
-/**
- * @typedef SimplifiedDiscordUser - Waay simplified and stripped down version of User Object.
- * @prop {string} id - Snowflake ID of the user.
- * @prop {string} discriminator - The 4 digit hash of the user
- * @prop {string | null} avatar - The avatar hash of the user's avatar picture.
- */
