@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="fbarda">
+    <meta name="description" content="Get someone's banner via this site! We don't notify the users ;)">
+    <meta name="viewport" content="width=device-width, initial-scale=1.2">
+    <title>Discord Nitro Banner Getter</title>
+    <link href="./style.css" rel="stylesheet">
+    <script src="src/banner.js"></script>
+</head>
+
+<body class="flex-center flex-col">
+    <h1>Discord Profile Banner Stealer!</h1>
+    <div class="flex-center flex-row">
+        <input type="text" id="id-input" onsubmit="handleSubmit();"
+            placeholder="Paste their discord user id here...">&nbsp;&nbsp;&nbsp;&nbsp;
+        <button onclick="handleSubmit();">🕵️ Steal their banner!</button>
+    </div>
+    <div id="picture" class="flex-center flex-row"></div>
+    <footer class="flex-center flex-col">
+        <div class="flex-center flex-row">
+            <a href="./index.html">Get someone's profile picture!</a>&nbsp;-&nbsp;
+            <a href="./howto.html">How do I use this?</a>
+        </div>
+        <hr style="width:60%;min-width:550px;">
+        <div class="flex-center flex-row">
+            <a href="https://github.com/fbarda">Follow me for more projects!</a>&nbsp;-&nbsp;
+            <a href="https://github.com/fbarda/discord-pfp-getter">Source Code</a>
+        </div>
+    </footer>
+</body>
+
+</html>
